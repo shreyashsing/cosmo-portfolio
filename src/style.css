@@ -1,0 +1,464 @@
+/* ── Reset & Base ─────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f2f0ed;
+  color: #111;
+  overflow-x: hidden;
+}
+
+/* ── Corner Navigation (fixed) ───────────────────────── */
+.corner-nav {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.corner-nav__item {
+  position: absolute;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  color: #111;
+  pointer-events: auto;
+  transition: color 0.5s ease;
+  text-transform: uppercase;
+}
+
+.corner-nav__item.is-light {
+  color: #fff;
+}
+
+.corner-nav__tl {
+  top: 1.5rem;
+  left: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.corner-nav__dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: currentColor;
+  border-radius: 50%;
+}
+
+.corner-nav__tr {
+  top: 1.5rem;
+  right: 2rem;
+}
+
+.corner-nav__bl {
+  bottom: 1.5rem;
+  left: 2rem;
+}
+
+.corner-nav__br {
+  bottom: 1.5rem;
+  right: 2rem;
+}
+
+/* ══════════════════════════════════════════════════════════
+   HERO SECTION — Desktop (scroll-driven zoom-through)
+   ══════════════════════════════════════════════════════════ */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 700vh; /* scroll runway — 3 phases need more room */
+}
+
+.hero__pin {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Layer 1: Work section (sits at the very back) ────── */
+.hero__behind {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.hero__behind-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.hero__behind-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.35);
+}
+
+.hero__behind-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 20%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+.hero__behind-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  text-align: center;
+  color: #fff;
+  padding: 0 2rem;
+}
+
+.hero__behind-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+.hero__behind-desc {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  font-weight: 400;
+  max-width: 640px;
+}
+
+/* ── Layer 2: Canvas mask (hero bg with text punched out) ─────── */
+.hero__mask-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  will-change: transform, opacity;
+  /* transform-origin set dynamically from JS based on "o" counter position */
+  backface-visibility: hidden;
+}
+
+.hero__mask-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Mobile-only static image (hidden on desktop) */
+.hero__mask-img-mobile {
+  display: none;
+}
+
+/* ── Layer 3: Welcome copy (on top of mask) ───────────── */
+.hero__content {
+  position: absolute;
+  top: 28%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.hero__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.hero__desc {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  line-height: 1.65;
+  max-width: 520px;
+  color: #444;
+}
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE WORK SECTION (shown below hero, no mask animation)
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Tunnel layer ─────────────────────────────────────── */
+.tunnel {
+  position: absolute;
+  inset: 0;
+  z-index: 1; /* between behind (z1) and mask (z2) — but we'll raise it when active */
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.tunnel__bg {
+  position: absolute;
+  inset: 0;
+  background-color: #0a0a12;
+}
+
+.tunnel__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+/* Concentric oval rings that create the tunnel depth illusion */
+.tunnel__rings {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 800px;
+}
+
+.tunnel__ring {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+
+.tunnel__ring--1 {
+  width: 120vw;
+  height: 120vh;
+  border-color: rgba(138, 92, 246, 0.12);
+}
+
+.tunnel__ring--2 {
+  width: 90vw;
+  height: 90vh;
+  border-color: rgba(99, 179, 237, 0.15);
+}
+
+.tunnel__ring--3 {
+  width: 60vw;
+  height: 60vh;
+  border-color: rgba(236, 119, 171, 0.18);
+}
+
+.tunnel__ring--4 {
+  width: 35vw;
+  height: 35vh;
+  border-color: rgba(138, 92, 246, 0.2);
+}
+
+.tunnel__ring--5 {
+  width: 15vw;
+  height: 15vh;
+  border-color: rgba(245, 195, 100, 0.22);
+}
+
+/* Flying cards */
+.tunnel__cards {
+  position: absolute;
+  inset: 0;
+  perspective: 1200px;
+}
+
+.tunnel__card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 240px;
+  padding: 1.5rem 2rem;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  color: #fff;
+  text-align: left;
+  will-change: transform, opacity;
+  transform: translate(-50%, -50%) scale(0.1) translateZ(-600px);
+  opacity: 0;
+}
+
+.tunnel__card-label {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.3rem;
+}
+
+.tunnel__card-sub {
+  display: block;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 400;
+}
+
+/* Card offset positions — they approach from different angles */
+.tunnel__card--1 { transform-origin: 30% 20%; }
+.tunnel__card--2 { transform-origin: 70% 30%; }
+.tunnel__card--3 { transform-origin: 25% 70%; }
+.tunnel__card--4 { transform-origin: 75% 65%; }
+.tunnel__card--5 { transform-origin: 50% 50%; }
+
+.work-section-mobile {
+  display: none; /* hidden on desktop */
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.work-section-mobile__bg {
+  position: absolute;
+  inset: 0;
+}
+
+.work-section-mobile__bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.35);
+}
+
+.work-section-mobile__overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 20%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+.work-section-mobile__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: #fff;
+  padding: 0 2rem;
+}
+
+.work-section-mobile__label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+.work-section-mobile__desc {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  font-weight: 400;
+  max-width: 640px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE / SMALL SCREENS — No zoom animation
+   ══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* Collapse the hero scroll runway — no pinning on mobile */
+  .hero {
+    height: auto;
+  }
+
+  .hero__pin {
+    position: relative;
+    height: auto;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Hide the behind layer (work section) on mobile — shown separately below */
+  .hero__behind {
+    display: none;
+  }
+
+  .tunnel {
+    display: none;
+  }
+
+  /* The mask layer becomes a static element on mobile */
+  .hero__mask-layer {
+    position: relative;
+    width: 100%;
+    height: auto;
+    transform-origin: center center;
+    order: 2;
+  }
+
+  /* Hide canvas on mobile, show static image */
+  .hero__mask-canvas {
+    display: none;
+  }
+
+  .hero__mask-img-mobile {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Welcome copy above the text */
+  .hero__content {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    padding: 6rem 1.5rem 2rem;
+    order: 1;
+  }
+
+  .hero__desc {
+    font-size: 1rem;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  /* Show mobile work section */
+  .work-section-mobile {
+    display: block;
+  }
+
+  .work-section-mobile__desc {
+    font-size: 1.2rem;
+  }
+
+  .corner-nav__item {
+    font-size: 0.65rem;
+  }
+
+  .corner-nav__tl {
+    top: 1rem;
+    left: 1rem;
+  }
+
+  .corner-nav__tr {
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .corner-nav__bl {
+    bottom: 1rem;
+    left: 1rem;
+  }
+
+  .corner-nav__br {
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
