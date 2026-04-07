@@ -51,6 +51,10 @@ export default function SplineSection() {
     const sticky = stickyRef.current;
     if (!section || !sticky) return;
 
+    // On mobile, cards are already stacked statically — skip ScrollTrigger
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if (isMobile) return;
+
     const cards = gsap.utils.toArray<HTMLElement>('.ai-card');
     const total = cards.length;
 

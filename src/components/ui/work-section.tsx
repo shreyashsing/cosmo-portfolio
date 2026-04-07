@@ -128,6 +128,14 @@ export function WorkSectionHeader() {
 export default function WorkSection() {
   return (
     <section className="wrk wrk--content">
+      {/* SEO section label */}
+      <div className="wrk__section-label">
+        <span className="wrk__header-pill" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+          <span className="wrk__header-icon">✦</span>
+          <span>SEO</span>
+        </span>
+      </div>
+
       {/* SEO explainer video */}
       
       <div className="wrk__video-block">

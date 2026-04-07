@@ -603,6 +603,14 @@ body {
     padding: 4rem 1.5rem 3rem;
   }
 
+  .wrk--header-only {
+    padding-bottom: 2rem;
+  }
+
+  .wrk--content {
+    padding-top: 3rem;
+  }
+
   .wrk__header {
     flex-direction: column;
     gap: 1.5rem;
