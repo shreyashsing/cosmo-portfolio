@@ -623,7 +623,12 @@ body {
 }
 
 .wrk--content {
-  padding-top: 0;
+  padding-top: 4rem;
+}
+
+/* Prevent body background leaking between dark sections */
+.ai-section + .wrk {
+  margin-top: 0;
 }
 
 .wrk__video-block {

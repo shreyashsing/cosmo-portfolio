@@ -444,11 +444,13 @@ export default function App() {
 
         <ServicesSection />
 
-        <WorkSectionHeader />
+        <div style={{ background: '#0d0d0d' }}>
+          <WorkSectionHeader />
 
-        <SplineSection />
+          <SplineSection />
 
-        <WorkSection />
+          <WorkSection />
+        </div>
 
         <section style={{ height: '100vh', background: '#0d0d0d' }} />
       </main>
