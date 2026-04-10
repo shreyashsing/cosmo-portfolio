@@ -344,12 +344,24 @@ export default function App() {
 
       {/* Corner Navigation */}
       <nav className="corner-nav">
-        <a href="#welcome" className="corner-nav__item corner-nav__tl">
-          <span className="corner-nav__dot" /> WELCOME
-        </a>
-        <a href="#innovation" className="corner-nav__item corner-nav__tr">INNOVATION</a>
-        <a href="#who" className="corner-nav__item corner-nav__bl">WHO</a>
-        <a href="#contact" className="corner-nav__item corner-nav__br">CONTACT</a>
+        {[
+          { id: 'welcome', label: 'WELCOME', pos: 'tl', dot: true },
+          { id: 'services', label: 'SERVICES', pos: 'tr' },
+          { id: 'work-section', label: 'WORK', pos: 'bl' },
+          { id: 'contact', label: 'CONTACT', pos: 'br' },
+        ].map(({ id, label, pos, dot }) => (
+          <a
+            key={id}
+            href={`#${id}`}
+            className={`corner-nav__item corner-nav__${pos}`}
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }}
+          >
+            {dot && <span className="corner-nav__dot" />} {label}
+          </a>
+        ))}
       </nav>
 
       <main>
