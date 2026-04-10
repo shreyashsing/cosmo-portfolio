@@ -145,27 +145,27 @@ const PROJECTS = [
 
 const WEB_PROJECTS = [
   {
-    client: 'Aria AI Platform',
+    client: 'CW Limited',
     tag: '[Web App & UI]',
     image: '',
     video: '/cwlimited.webm',
     span: 'wide',
   },
   {
-    client: "Julio's Fine Dining",
-    tag: '[Website & Branding]',
+    client: "Matewise Startup",
+    tag: '[Software]',
     image: '/matewise.jpg',
   },
   {
-    client: 'SpiceDelight',
-    tag: '[Website & Collaterals]',
+    client: 'Sleepify',
+    tag: '[Website & SEO]',
     image: '',
     video: '/sleepify.mp4',
     span: 'narrow',
   },
   {
-    client: 'Cosmodigi Studio',
-    tag: '[Brand & Website]',
+    client: 'UK immigration Experts',
+    tag: '[Website]',
     image: '/UKimmiration.png',
     span: 'wide',
   },
