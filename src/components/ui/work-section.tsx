@@ -1,18 +1,80 @@
 
+import { useEffect, useRef, useState } from 'react';
 import ThreeDMarquee from './3d-marquee';
 import { ZoomParallax } from './zoom-parallax';
 
+// ── Animated stat count-up ────────────────────────────
+function parseMetricValue(raw: string) {
+  // Extract optional prefix (+), numeric part, and suffix (%,★, etc.)
+  const match = raw.match(/^([+\-]?)([0-9,]+\.?[0-9]*)(.*)$/);
+  if (!match) return { prefix: '', num: 0, decimals: 0, suffix: raw };
+  const prefix = match[1];
+  const numStr = match[2].replace(/,/g, '');
+  const suffix = match[3];
+  const num = parseFloat(numStr);
+  const decimals = numStr.includes('.') ? numStr.split('.')[1].length : 0;
+  return { prefix, num, decimals, suffix };
+}
+
+function AnimatedStat({ value }: { value: string }) {
+  const { prefix, num, decimals, suffix } = parseMetricValue(value);
+  const [display, setDisplay] = useState('0');
+  const ref = useRef<HTMLSpanElement>(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || started.current) return;
+        started.current = true;
+        observer.disconnect();
+
+        const duration = 1400;
+        const steps = 50;
+        const interval = duration / steps;
+        let step = 0;
+
+        // ease-out quad
+        const ease = (t: number) => 1 - (1 - t) * (1 - t);
+
+        const timer = setInterval(() => {
+          step++;
+          const progress = ease(step / steps);
+          const current = num * progress;
+          const formatted = decimals > 0
+            ? current.toFixed(decimals)
+            : Math.round(current).toLocaleString();
+          setDisplay(formatted);
+          if (step >= steps) {
+            clearInterval(timer);
+            setDisplay(
+              decimals > 0 ? num.toFixed(decimals) : num.toLocaleString()
+            );
+          }
+        }, interval);
+      },
+      { threshold: 0.4 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [num, decimals]);
+
+  return <span ref={ref}>{prefix}{display}{suffix}</span>;
+}
+
 const PARALLAX_IMAGES = [
   {
-    src: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1280&h=720&fit=crop&auto=format&q=80',
-    alt: 'Modern architecture',
+    video: '/julios.mp4',
+    alt: 'Julio\'s Italian Restaurant',
   },
   {
     src: 'https://images.unsplash.com/photo-1512314889357-e157c22f938d?w=1280&h=720&fit=crop&auto=format&q=80',
     alt: 'Digital marketing',
   },
   {
-    src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=800&fit=crop&auto=format&q=80',
+    video:'video1.mp4',
     alt: 'Team collaboration',
   },
   {
@@ -20,7 +82,7 @@ const PARALLAX_IMAGES = [
     alt: 'Analytics dashboard',
   },
   {
-    src: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&h=800&fit=crop&auto=format&q=80',
+    src: 'image1.png',
     alt: 'SEO growth',
   },
   {
@@ -28,7 +90,7 @@ const PARALLAX_IMAGES = [
     alt: 'Data analysis',
   },
   {
-    src: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1280&h=720&fit=crop&auto=format&q=80',
+    video: 'video2.mp4',
     alt: 'Business results',
   },
 ];
@@ -83,27 +145,28 @@ const PROJECTS = [
 
 const WEB_PROJECTS = [
   {
-    client: 'Cosmodigi Studio',
-    tag: '[Brand & Website]',
-    image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1400&h=900&fit=crop&auto=format&q=80',
-    span: 'wide',
-  },
-  {
     client: 'Aria AI Platform',
     tag: '[Web App & UI]',
-    image: 'https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?w=800&h=900&fit=crop&auto=format&q=80',
-    span: 'narrow',
-  },
-  {
-    client: 'SpiceDelight',
-    tag: '[Website & Collaterals]',
-    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=900&fit=crop&auto=format&q=80',
-    span: 'narrow',
+    image: '',
+    video: '/cwlimited.webm',
+    span: 'wide',
   },
   {
     client: "Julio's Fine Dining",
     tag: '[Website & Branding]',
-    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1400&h=900&fit=crop&auto=format&q=80',
+    image: '/matewise.jpg',
+  },
+  {
+    client: 'SpiceDelight',
+    tag: '[Website & Collaterals]',
+    image: '',
+    video: '/sleepify.mp4',
+    span: 'narrow',
+  },
+  {
+    client: 'Cosmodigi Studio',
+    tag: '[Brand & Website]',
+    image: '/UKimmiration.png',
     span: 'wide',
   },
 ];
@@ -172,7 +235,9 @@ export default function WorkSection() {
             <div className="wrk-card__metrics">
               {p.metrics.map((m) => (
                 <div key={m.label} className="wrk-card__metric">
-                  <span className="wrk-card__metric-value">{m.value}</span>
+                  <span className="wrk-card__metric-value">
+                    <AnimatedStat value={m.value} />
+                  </span>
                   <span className="wrk-card__metric-label">{m.label}</span>
                 </div>
               ))}
@@ -191,7 +256,18 @@ export default function WorkSection() {
       <div className="wrk__portfolio-grid">
         {WEB_PROJECTS.map((p, i) => (
           <div key={i} className={`wrk__portfolio-card${p.span === 'wide' ? ' wrk__portfolio-card--wide' : ''}`}>
-            <img src={p.image} alt={p.client} className="wrk__portfolio-img" />
+            {'video' in p && p.video ? (
+              <video
+                src={p.video}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="wrk__portfolio-img"
+              />
+            ) : (
+              <img src={p.image} alt={p.client} className="wrk__portfolio-img" />
+            )}
             <div className="wrk__portfolio-overlay">
               <span className="wrk__portfolio-client">{p.client}</span>
               <span className="wrk__portfolio-tag">{p.tag}</span>

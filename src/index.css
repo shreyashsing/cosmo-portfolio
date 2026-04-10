@@ -1158,3 +1158,141 @@ body {
   border-color: #fff;
   background: rgba(255,255,255,0.06);
 }
+
+/* ── Contact Section ─────────────────────────────────── */
+.contact-section {
+  background: #f2f0ed;
+  padding: 7rem 4rem 6rem;
+  color: #0d0d0d;
+}
+
+.contact-section__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.contact-section__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(13,13,13,0.25);
+  border-radius: 99px;
+  padding: 0.4rem 1rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #0d0d0d;
+}
+
+.contact-section__heading {
+  font-family: 'Inter', sans-serif;
+  font-size: 2.6rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-top: 1.6rem;
+  letter-spacing: -0.02em;
+}
+
+.contact-section__desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(13,13,13,0.6);
+  max-width: 440px;
+  margin-top: 1.2rem;
+}
+
+.contact-section__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem 3rem;
+  margin-top: 2.5rem;
+}
+
+.contact-section__block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.contact-section__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(13,13,13,0.45);
+}
+
+.contact-section__value {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #0d0d0d;
+}
+
+.contact-section__link {
+  text-decoration: none;
+  color: #0d0d0d;
+  transition: color 0.2s;
+}
+
+.contact-section__link:hover {
+  color: #3a3af4;
+}
+
+.contact-section__right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .contact-section {
+    padding: 4rem 1.5rem 3rem;
+  }
+
+  .contact-section__inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .contact-section__heading {
+    font-size: 1.8rem;
+  }
+
+  .contact-section__grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .contact-section__right {
+    max-width: 360px;
+    margin: 0 auto;
+  }
+}
+
+/* ── Contact section logo stamp ──────────────────────── */
+.contact-logo {
+  margin-top: 5rem;
+  overflow: hidden;
+}
+
+.contact-logo__img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  opacity: 0.18;
+  pointer-events: none;
+  user-select: none;
+  transform: translateY(100%);
+  transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.contact-logo--visible .contact-logo__img {
+  transform: translateY(0);
+}

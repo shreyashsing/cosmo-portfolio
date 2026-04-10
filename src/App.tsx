@@ -5,6 +5,7 @@ import InfiniteGallery from './components/ui/gallery-3d';
 import ServicesSection from './components/ui/services-section';
 import WorkSection, { WorkSectionHeader } from './components/ui/work-section';
 import SplineSection from './components/ui/spline-section';
+import ContactSection from './components/ui/contact-section';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -452,7 +453,7 @@ export default function App() {
           <WorkSection />
         </div>
 
-        <section style={{ height: '100vh', background: '#0d0d0d' }} />
+        <ContactSection />
       </main>
     </>
   );
