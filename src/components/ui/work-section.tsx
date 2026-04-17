@@ -150,23 +150,27 @@ const WEB_PROJECTS = [
     image: '',
     video: '/cwlimited.webm',
     span: 'wide',
+    link: 'https://cwlimited.example.com',
   },
   {
     client: "Matewise Startup",
     tag: '[Software]',
     image: '/matewise.jpg',
+    link: 'https://matewise.example.com',
   },
   {
     client: 'Sleepify',
     tag: '[Website & SEO]',
     image: '/sleepify.jpeg',
     span: 'narrow',
+    link: 'https://sleepify.example.com',
   },
   {
     client: 'UK immigration Experts',
     tag: '[Website]',
     image: '/UKimmiration.png',
     span: 'wide',
+    link: 'https://ukimmigration.example.com',
   },
 ];
 
@@ -254,7 +258,14 @@ export default function WorkSection() {
       </div>
       <div className="wrk__portfolio-grid">
         {WEB_PROJECTS.map((p, i) => (
-          <div key={i} className={`wrk__portfolio-card${p.span === 'wide' ? ' wrk__portfolio-card--wide' : ''}`}>
+          <a
+            key={i}
+            href={p.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`wrk__portfolio-card${p.span === 'wide' ? ' wrk__portfolio-card--wide' : ''}`}
+            style={{ textDecoration: 'none', display: 'block' }}
+          >
             {'video' in p && p.video ? (
               <video
                 src={p.video}
@@ -271,7 +282,7 @@ export default function WorkSection() {
               <span className="wrk__portfolio-client">{p.client}</span>
               <span className="wrk__portfolio-tag">{p.tag}</span>
             </div>
-          </div>
+          </a>
         ))}
       </div>
 
