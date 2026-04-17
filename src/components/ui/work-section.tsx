@@ -159,8 +159,7 @@ const WEB_PROJECTS = [
   {
     client: 'Sleepify',
     tag: '[Website & SEO]',
-    image: '',
-    video: '/sleepify.mp4',
+    image: '/sleepify.jpeg',
     span: 'narrow',
   },
   {

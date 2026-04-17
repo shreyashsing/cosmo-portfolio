@@ -418,7 +418,7 @@ export default function App() {
                 />
                 {/* Overlay text */}
                 <div className="pointer-events-none absolute inset-0 flex items-center justify-center mix-blend-exclusion">
-                  <h1 className="font-serif text-4xl md:text-7xl tracking-tight text-white italic">
+                  <h1 className="font-sans font-light tracking-wider text-4xl md:text-7xl text-white">
                     Cosmodigi
                   </h1>
                 </div>
