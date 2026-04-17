@@ -150,27 +150,27 @@ const WEB_PROJECTS = [
     image: '',
     video: '/cwlimited.webm',
     span: 'wide',
-    link: 'https://cwlimited.example.com',
+    link: 'https://cwlimited.co.uk/',
   },
   {
     client: "Matewise Startup",
     tag: '[Software]',
     image: '/matewise.jpg',
-    link: 'https://matewise.example.com',
+    link: 'https://matewise.vercel.app/',
   },
   {
     client: 'Sleepify',
     tag: '[Website & SEO]',
     image: '/sleepify.jpeg',
     span: 'narrow',
-    link: 'https://sleepify.example.com',
+    link: 'https://sleepifybed.com/',
   },
   {
     client: 'UK immigration Experts',
     tag: '[Website]',
     image: '/UKimmiration.png',
     span: 'wide',
-    link: 'https://ukimmigration.example.com',
+    link: 'https://ukimmigrationexpert.com/',
   },
 ];
 
